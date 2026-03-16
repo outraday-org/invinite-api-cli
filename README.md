@@ -1,6 +1,6 @@
 # invinite-api-cli
 
-Command-line interface for the [Invinite API](https://api.invinite.com) — access company data, financial statements, SEC filings, institutional ownership, and more from your terminal.
+Command-line interface for the [Invinite API](https://api.invinite.com/health) — access company data, financial statements, SEC filings, institutional ownership, and more from your terminal.
 
 ## Installation
 
@@ -41,6 +41,58 @@ You'll be prompted to enter your key (input is masked). Alternatively, export it
 ```bash
 export INVINITE_API_KEY=your-api-key
 ```
+
+## Agent Skill & Orchestration
+
+This repo includes a [Claude Code plugin](https://code.claude.com/docs/en/create-plugins) in the [`claude-plugin/`](claude-plugin/) folder that enables AI-powered financial data retrieval and analysis.
+
+### Install the plugin
+
+```bash
+# Test locally
+claude --plugin-dir /path/to/invinite-api-cli/claude-plugin
+
+# Or install from a marketplace (once published)
+# /plugins install invinite
+```
+
+### What you get
+
+| Component | Invocation | Description |
+|-----------|------------|-------------|
+| **Skill** | `/invinite:invinite-api-cli` | Teaches Claude all `invinite` CLI commands — auto-triggers on financial data questions |
+| **Subagent** | `invinite-data` | Dedicated data retrieval agent — fetches structured JSON from the API |
+| **Command** | `/invinite:financial-research` | Orchestrates parallel `invinite-data` subagents and synthesizes results into analysis |
+
+| File | Description |
+|------|-------------|
+| [`claude-plugin/skills/invinite-api-cli/SKILL.md`](claude-plugin/skills/invinite-api-cli/SKILL.md) | Complete CLI reference — all commands, flags, and usage patterns |
+| [`claude-plugin/agents/invinite-data.md`](claude-plugin/agents/invinite-data.md) | Subagent that fetches structured JSON data from the Invinite API |
+| [`claude-plugin/commands/financial-research.md`](claude-plugin/commands/financial-research.md) | Orchestrator that spawns parallel data agents and produces analysis |
+
+### Manual copy
+
+You can also copy individual files into your project's `.claude/` directory instead of installing the full plugin:
+
+```bash
+cp -r claude-plugin/skills/invinite-api-cli /path/to/your-project/.claude/skills/
+cp claude-plugin/agents/invinite-data.md /path/to/your-project/.claude/agents/
+cp claude-plugin/commands/financial-research.md /path/to/your-project/.claude/commands/
+```
+
+### Usage examples
+
+Use `/invinite:financial-research` (or `/financial-research` if manually copied) for multi-step analysis:
+
+```
+/financial-research Compare Apple, Microsoft, and Google's profitability and growth over the last 3 years
+/financial-research Who are the largest institutional holders of TSLA and what are recent ownership changes?
+/financial-research Analyze risk factors from NVDA's latest 10-K filing
+```
+
+Or ask questions directly — Claude will auto-trigger the skill and delegate to the `invinite-data` subagent as needed.
+
+> **Note:** The CLI must be installed and authenticated (see [Authentication](#authentication)) for the plugin to work.
 
 ## Global Options
 
