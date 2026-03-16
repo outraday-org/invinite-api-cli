@@ -13,6 +13,7 @@ import { registerFilingsCommands } from './commands/filings.js';
 import { registerMarketCommands } from './commands/market.js';
 import { registerMetadataCommands } from './commands/metadata.js';
 import { registerWsCommands } from './commands/ws.js';
+import { registerPluginCommands } from './commands/plugin.js';
 
 export function createProgram(): Command {
   const program = new Command();
@@ -43,6 +44,7 @@ export function createProgram(): Command {
   registerMarketCommands(program);
   registerMetadataCommands(program);
   registerWsCommands(program);
+  registerPluginCommands(program);
 
   return program;
 }

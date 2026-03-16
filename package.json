@@ -24,7 +24,8 @@
     "publish": "npm version patch && export $(cat .env | xargs) && npm publish --access public"
   },
   "files": [
-    "dist"
+    "dist",
+    "claude-plugin"
   ],
   "engines": {
     "node": ">=20"

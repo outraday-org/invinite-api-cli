@@ -42,47 +42,50 @@ You'll be prompted to enter your key (input is masked). Alternatively, export it
 export INVINITE_API_KEY=your-api-key
 ```
 
-## Agent Skill & Orchestration
+## AI Coding Tool Plugin
 
-This repo includes a [Claude Code plugin](https://code.claude.com/docs/en/create-plugins) in the [`claude-plugin/`](claude-plugin/) folder that enables AI-powered financial data retrieval and analysis.
+This repo includes plugins for AI coding tools that enable AI-powered financial data retrieval and analysis. Supports **Claude Code**, **OpenCode**, **Codex**, and **Copilot**.
 
-### Install the plugin
+### Quick install
 
 ```bash
-# Test locally
-claude --plugin-dir /path/to/invinite-api-cli/claude-plugin
+# Interactive — prompts for runtime and scope
+npx invinite-api-cli@latest plugin install
 
-# Or install from a marketplace (once published)
-# /plugins install invinite
+# Non-interactive examples
+npx invinite-api-cli@latest plugin install --claude --global
+npx invinite-api-cli@latest plugin install --claude --local
+npx invinite-api-cli@latest plugin install --opencode --global
+npx invinite-api-cli@latest plugin install --codex --global
+npx invinite-api-cli@latest plugin install --copilot --local
+npx invinite-api-cli@latest plugin install --all --global
 ```
 
-### What you get
-
-| Component | Invocation | Description |
-|-----------|------------|-------------|
-| **Skill** | `/invinite:invinite-api-cli` | Teaches Claude all `invinite` CLI commands — auto-triggers on financial data questions |
-| **Subagent** | `invinite-data` | Dedicated data retrieval agent — fetches structured JSON from the API |
-| **Command** | `/invinite:financial-research` | Orchestrates parallel `invinite-data` subagents and synthesizes results into analysis |
-
-| File | Description |
-|------|-------------|
-| [`claude-plugin/skills/invinite-api-cli/SKILL.md`](claude-plugin/skills/invinite-api-cli/SKILL.md) | Complete CLI reference — all commands, flags, and usage patterns |
-| [`claude-plugin/agents/invinite-data.md`](claude-plugin/agents/invinite-data.md) | Subagent that fetches structured JSON data from the Invinite API |
-| [`claude-plugin/commands/financial-research.md`](claude-plugin/commands/financial-research.md) | Orchestrator that spawns parallel data agents and produces analysis |
-
-### Manual copy
-
-You can also copy individual files into your project's `.claude/` directory instead of installing the full plugin:
+### Uninstall
 
 ```bash
-cp -r claude-plugin/skills/invinite-api-cli /path/to/your-project/.claude/skills/
-cp claude-plugin/agents/invinite-data.md /path/to/your-project/.claude/agents/
-cp claude-plugin/commands/financial-research.md /path/to/your-project/.claude/commands/
+npx invinite-api-cli@latest plugin uninstall --claude --global
+npx invinite-api-cli@latest plugin uninstall --all --global
+```
+
+### What gets installed
+
+| Runtime | Skill | Agent | Command |
+|---------|-------|-------|---------|
+| **Claude Code** | `skills/invinite-api-cli/SKILL.md` | `agents/invinite-data.md` | `commands/financial-research.md` |
+| **OpenCode** | `command/invinite-api-cli.md` | `agents/invinite-data.md` | — |
+| **Codex** | `skills/invinite-api-cli/SKILL.md` | — | `skills/invinite-financial-research/SKILL.md` |
+| **Copilot** | `skills/invinite-api-cli/SKILL.md` | — | `skills/invinite-financial-research/SKILL.md` |
+
+### Alternative: Claude Code plugin directory
+
+```bash
+claude --plugin-dir /path/to/invinite-api-cli/claude-plugin
 ```
 
 ### Usage examples
 
-Use `/invinite:financial-research` (or `/financial-research` if manually copied) for multi-step analysis:
+Use `/financial-research` for multi-step analysis:
 
 ```
 /financial-research Compare Apple, Microsoft, and Google's profitability and growth over the last 3 years
@@ -90,7 +93,7 @@ Use `/invinite:financial-research` (or `/financial-research` if manually copied)
 /financial-research Analyze risk factors from NVDA's latest 10-K filing
 ```
 
-Or ask questions directly — Claude will auto-trigger the skill and delegate to the `invinite-data` subagent as needed.
+Or ask questions directly — the AI will auto-trigger the skill and delegate to the data agent as needed.
 
 > **Note:** The CLI must be installed and authenticated (see [Authentication](#authentication)) for the plugin to work.
 
