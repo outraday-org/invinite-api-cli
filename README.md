@@ -10,6 +10,12 @@ Command-line interface for the [Invinite API](https://api.invinite.com/health) â
 npm install -g invinite-api-cli
 ```
 
+To update to the latest version:
+
+```bash
+npm update -g invinite-api-cli
+```
+
 ### From source
 
 ```bash
@@ -58,6 +64,15 @@ npx invinite-api-cli@latest plugin install --claude --local
 npx invinite-api-cli@latest plugin install --opencode --global
 npx invinite-api-cli@latest plugin install --codex --global
 npx invinite-api-cli@latest plugin install --copilot --local
+npx invinite-api-cli@latest plugin install --all --global
+```
+
+### Update
+
+To update the plugin to the latest version, re-run the install command:
+
+```bash
+npx invinite-api-cli@latest plugin install --claude --global
 npx invinite-api-cli@latest plugin install --all --global
 ```
 
