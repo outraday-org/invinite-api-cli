@@ -48,7 +48,7 @@ You'll be prompted to enter your key (input is masked). Alternatively, export it
 export INVINITE_API_KEY=your-api-key
 ```
 
-## AI Coding Tool Plugin
+## AI Plugin
 
 This repo includes plugins for AI coding tools that enable AI-powered financial data retrieval and analysis. Supports **Claude Code**, **OpenCode**, **Codex**, and **Copilot**.
 
