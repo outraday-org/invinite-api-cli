@@ -21,8 +21,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "prepublishOnly": "npm run build",
-    "publish:version": "export $(cat .env | xargs) && npm publish --access public",
-    "publish:patch": "npm version patch && export $(cat .env | xargs) && npm publish --access public"
+    "publish": "npm version patch && export $(cat .env | xargs) && npm publish --access public"
   },
   "files": [
     "dist"
