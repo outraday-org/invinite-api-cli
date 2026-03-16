@@ -7,6 +7,7 @@
 *.env.*
 !.env.example
 .dev.vars
+.npmrc
 
 # Build
 **/dist
@@ -22,6 +23,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
+
+# Coverage
+coverage/
 
 # misc
 .DS_Store
