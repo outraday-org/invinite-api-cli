@@ -1,6 +1,6 @@
 {
   "name": "invinite-api-cli",
-  "version": "0.1.16",
+  "version": "0.1.17",
   "type": "module",
   "description": "CLI for the Invinite API",
   "homepage": "https://github.com/outraday-org/invinite-api-cli",
