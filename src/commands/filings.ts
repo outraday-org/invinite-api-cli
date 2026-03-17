@@ -48,7 +48,7 @@ export function registerFilingsCommands(program: Command): void {
       output(data, opts, () => {
         for (const c of data.companies) {
           console.log(chalk.bold(`\n${c.ticker} SEC Filings\n`));
-          formatTable(c.filings, ['filing_date', 'form_type', 'period_end', 'accession_number', 'html_url']);
+          formatTable(c.filings, ['filing_date', 'form_type', 'fiscal_year', 'fiscal_quarter', 'calendar_year', 'calendar_quarter', 'period_end', 'accession_number', 'html_url', 'pdf_url']);
           printPaginationHint(c.next_url);
         }
       });
@@ -75,7 +75,7 @@ export function registerFilingsCommands(program: Command): void {
         console.log(data.text);
         if (data.sources.length > 0) {
           console.log(chalk.bold('\nSources:'));
-          formatTable(data.sources, ['ticker', 'form_type', 'filing_date', 'html_url']);
+          formatTable(data.sources, ['ticker', 'cik', 'form_type', 'filing_date', 'accession_number', 'html_url']);
         }
       });
     }));
@@ -107,8 +107,12 @@ export function registerFilingsCommands(program: Command): void {
         for (const c of data.companies) {
           console.log(chalk.bold(`\n${c.ticker} Filing Sections\n`));
           for (const section of c.sections) {
-            console.log(chalk.cyan(`${section.part} - ${section.title}`));
-            console.log(chalk.dim(`  ${section.form_type} | ${section.filing_date} | ${section.accession_number}`));
+            console.log(chalk.cyan(`${section.part} - ${section.item_id} - ${section.title}`));
+            console.log(chalk.dim(`  ${section.form_type} | ${section.filing_date} | FY${section.fiscal_year} Q${section.fiscal_quarter} | CY${section.calendar_year} Q${section.calendar_quarter} | Period end: ${section.period_end}`));
+            console.log(chalk.dim(`  Accession: ${section.accession_number} | CIK: ${section.cik} | Tag: ${section.html_tag_id}`));
+            if (section.html_url) {
+              console.log(chalk.dim(`  URL: ${section.html_url}`));
+            }
             if (section.content) {
               const preview = section.content.substring(0, 500);
               console.log(`  ${preview}${section.content.length > 500 ? '...' : ''}\n`);

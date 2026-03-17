@@ -1,6 +1,6 @@
 # invinite-api-cli
 
-Command-line interface for the [Invinite API](https://api.invinite.com/health) — access company data, financial statements, SEC filings, institutional ownership, and more from your terminal.
+Command-line interface for the [Invinite API](https://invinite.com/docs/api/overview) — access company data, financial statements, SEC filings, institutional ownership, and more from your terminal.
 
 ## Installation
 

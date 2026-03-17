@@ -50,9 +50,9 @@ export function registerMetricsCommands(program: Command): void {
       }
       output(data, opts, () => {
         for (const c of data.companies) {
-          console.log(chalk.bold(`\n${c.ticker}`));
+          console.log(chalk.bold(`\n${c.ticker} (${c.cik})`));
           for (const period of c.periods) {
-            console.log(chalk.cyan(`\n  ${period.period_end} (${period.fiscal_period_type})`));
+            console.log(chalk.cyan(`\n  ${period.fiscal_period_type} FY${period.fiscal_year} Q${period.fiscal_quarter} (CY${period.calendar_year} Q${period.calendar_quarter}, ending ${period.period_end})`));
             for (const [category, metrics] of Object.entries(period.facts as Record<string, Record<string, number>>)) {
               console.log(chalk.dim(`    ${category}:`));
               const rows = Object.entries(metrics).map(([k, v]) => ({ metric: k, value: v }));
@@ -100,9 +100,9 @@ export function registerMetricsCommands(program: Command): void {
       }
       output(data, opts, () => {
         for (const c of data.companies) {
-          console.log(chalk.bold(`\n${c.ticker} CAGR`));
+          console.log(chalk.bold(`\n${c.ticker} (${c.cik}) CAGR`));
           for (const period of c.periods) {
-            console.log(chalk.cyan(`\n  ${period.period_end}`));
+            console.log(chalk.cyan(`\n  FY${period.fiscal_year} Q${period.fiscal_quarter} (CY${period.calendar_year} Q${period.calendar_quarter}, ending ${period.period_end})`));
             for (const [years, metrics] of Object.entries(period.facts as Record<string, Record<string, number>>)) {
               console.log(chalk.dim(`    ${years}-year CAGR:`));
               const rows = Object.entries(metrics).map(([k, v]) => ({ metric: k, value: v }));
@@ -152,9 +152,9 @@ export function registerMetricsCommands(program: Command): void {
       }
       output(data, opts, () => {
         for (const c of data.companies) {
-          console.log(chalk.bold(`\n${c.ticker} Growth`));
+          console.log(chalk.bold(`\n${c.ticker} (${c.cik}) Growth`));
           for (const period of c.periods) {
-            console.log(chalk.cyan(`\n  ${period.period_end} (${period.fiscal_period_type})`));
+            console.log(chalk.cyan(`\n  ${period.fiscal_period_type} FY${period.fiscal_year} Q${period.fiscal_quarter} (CY${period.calendar_year} Q${period.calendar_quarter}, ending ${period.period_end})`));
             for (const [growthType, metrics] of Object.entries(period.facts as Record<string, Record<string, number>>)) {
               console.log(chalk.dim(`    ${growthType}:`));
               const rows = Object.entries(metrics).map(([k, v]) => ({ metric: k, value: v }));

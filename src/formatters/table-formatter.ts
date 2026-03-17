@@ -12,7 +12,7 @@ export function formatTable(rows: Record<string, unknown>[], columns?: string[])
   for (const col of cols) {
     widths[col] = col.length;
     for (const row of rows) {
-      const val = formatValue(row[col]);
+      const val = formatValue(row[col], col);
       widths[col] = Math.max(widths[col], val.length);
     }
   }
@@ -24,19 +24,26 @@ export function formatTable(rows: Record<string, unknown>[], columns?: string[])
 
   // Rows
   for (const row of rows) {
-    const line = cols.map(c => formatValue(row[c]).padEnd(widths[c])).join('  ');
+    const line = cols.map(c => formatValue(row[c], c).padEnd(widths[c])).join('  ');
     console.log(line);
   }
 }
 
-function formatValue(val: unknown): string {
+function formatValue(val: unknown, columnName?: string): string {
   if (val === null || val === undefined) return '—';
-  if (typeof val === 'number') return formatNumber(val);
+  if (typeof val === 'number') return formatNumber(val, columnName);
   if (typeof val === 'boolean') return val ? 'Yes' : 'No';
+  if (Array.isArray(val)) return val.join(', ');
   return String(val);
 }
 
-function formatNumber(n: number): string {
+const YEAR_LIKE_COLUMNS = new Set(['fiscal_year', 'calendar_year']);
+
+function formatNumber(n: number, columnName?: string): string {
+  // Don't add thousand separators to year-like values
+  if (columnName && YEAR_LIKE_COLUMNS.has(columnName)) {
+    return String(n);
+  }
   if (Number.isInteger(n) && Math.abs(n) >= 1000) {
     return n.toLocaleString('en-US');
   }

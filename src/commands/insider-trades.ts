@@ -44,8 +44,16 @@ export function registerInsiderTradesCommands(program: Command): void {
         );
       }
       output(data, opts, () => {
-        console.log(chalk.bold(`\n${data.ticker} Insider Trades\n`));
-        formatTable(data.transactions, ['filed_at', 'reporting_person_name', 'security_title', 'acquired_disposed', 'shares', 'share_price', 'total']);
+        console.log(chalk.bold(`\n${data.ticker} (${data.cik}) Insider Trades\n`));
+        formatTable(data.transactions, [
+          'filed_at', 'period_of_report', 'reporting_person_name',
+          'reporting_person_is_director', 'reporting_person_is_officer', 'reporting_person_is_ten_percent_owner', 'reporting_person_is_other',
+          'reporting_person_officer_title', 'reporting_person_other_text',
+          'security_title', 'acquired_disposed', 'coding_code',
+          'shares', 'share_price', 'total',
+          'shares_owned_before_transaction', 'shares_owned_following_transaction',
+          'accession_number',
+        ]);
         printPaginationHint(data.next_url);
       });
     }));

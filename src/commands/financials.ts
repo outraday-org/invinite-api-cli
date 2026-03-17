@@ -74,7 +74,7 @@ function registerStatementCommand(
         for (const c of data.companies) {
           console.log(chalk.bold(`\n${c.ticker} (${c.cik})`));
           for (const period of c.periods) {
-            console.log(chalk.cyan(`\n  ${period.fiscal_period_type} ${period.fiscal_year} Q${period.fiscal_quarter} (ending ${period.period_end})`));
+            console.log(chalk.cyan(`\n  ${period.fiscal_period_type} FY${period.fiscal_year} Q${period.fiscal_quarter} (CY${period.calendar_year} Q${period.calendar_quarter}, ending ${period.period_end})`));
             if (cmdOpts.presentation && Array.isArray(period.facts)) {
               formatTree(period.facts, 2);
             } else if (typeof period.facts === 'object' && !Array.isArray(period.facts)) {
@@ -136,7 +136,7 @@ function registerSnapshotCommand(parent: Command, program: Command): void {
 
       output(data, opts, () => {
         for (const c of data.companies) {
-          console.log(chalk.bold(`\n${c.ticker} (${c.cik}) - ${c.fiscal_period_type} ${c.calendar_year} Q${c.calendar_quarter}`));
+          console.log(chalk.bold(`\n${c.ticker} (${c.cik}) - ${c.fiscal_period_type} FY${c.fiscal_year} Q${c.fiscal_quarter} (CY${c.calendar_year} Q${c.calendar_quarter})`));
           console.log(chalk.dim(`  Period end: ${c.period_end}`));
           if (c.statements) {
             for (const [stmtName, stmt] of Object.entries(c.statements)) {

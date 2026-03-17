@@ -66,17 +66,39 @@ export function registerCompanyCommands(program: Command): void {
       output(data, opts, () => {
         for (const c of data.companies) {
           console.log(`\n${c.name} (${c.ticker})\n`);
+          if (c.description) {
+            console.log(`  ${c.description}\n`);
+          }
           formatKeyValue({
             CIK: c.cik,
+            Category: c.category,
             Exchange: c.exchange,
             Sector: c.sector,
             Industry: c.industry,
-            'Market Cap': c.market_cap,
-            Employees: c.employees,
+            SIC: c.sic,
+            'SIC Sector': c.sic_sector,
+            'SIC Industry': c.sic_industry,
+            'Fama Sector': c.fama_sector || undefined,
+            'Fama Industry': c.fama_industry || undefined,
             Currency: c.currency,
+            CUSIP: c.cusip,
+            'Composite FIGI': c.composite_figi,
+            'Market Cap': c.market_cap,
+            'Shares Outstanding': c.shares_outstanding,
+            Employees: c.employees,
+            'Insider Own %': c.insider_own_pct,
+            'Insider Own Shares': c.insider_own_shares,
+            'Inst Own %': c.inst_own_pct,
+            'Inst Own Shares': c.inst_own_shares,
+            'Short Float %': c.short_float_pct,
+            'Short Float Shares': c.short_float_shares,
             'List Date': c.list_date,
             Delisted: c.is_delisted,
             Website: c.homepage_url,
+            'Investor Relations': c.investor_relations_url,
+            'Logo URL': c.logo_url,
+            'Brand Colors': c.brand_colors?.length ? c.brand_colors.join(', ') : undefined,
+            Address: [c.street, c.city, c.state, c.zip_code, c.country_code].filter(Boolean).join(', '),
           });
         }
       });
@@ -120,8 +142,8 @@ export function registerCompanyCommands(program: Command): void {
       }
       output(data, opts, () => {
         for (const c of data.companies) {
-          console.log(`\n${c.ticker} Dividends:\n`);
-          formatTable(c.dividends, ['ex_dividend_date', 'cash_amount', 'dividend_type', 'frequency', 'pay_date', 'record_date']);
+          console.log(`\n${c.ticker} (${c.cik}) Dividends:\n`);
+          formatTable(c.dividends, ['ex_dividend_date', 'declaration_date', 'cash_amount', 'dividend_type', 'frequency', 'pay_date', 'record_date']);
           printPaginationHint(c.next_url);
         }
       });
@@ -161,7 +183,7 @@ export function registerCompanyCommands(program: Command): void {
       }
       output(data, opts, () => {
         for (const c of data.companies) {
-          console.log(`\n${c.ticker} Fiscal Periods:\n`);
+          console.log(`\n${c.ticker} (${c.cik}) Fiscal Periods:\n`);
           formatTable(c.periods, ['fiscal_year', 'fiscal_quarter', 'calendar_year', 'calendar_quarter', 'period_end']);
           printPaginationHint(c.next_url);
         }
@@ -202,7 +224,7 @@ export function registerCompanyCommands(program: Command): void {
       }
       output(data, opts, () => {
         for (const c of data.companies) {
-          console.log(`\n${c.ticker} Stock Splits:\n`);
+          console.log(`\n${c.ticker} (${c.cik}) Stock Splits:\n`);
           formatTable(c.splits, ['execution_date', 'split_from', 'split_to']);
           printPaginationHint(c.next_url);
         }

@@ -51,9 +51,9 @@ export function registerSegmentsCommands(program: Command): void {
       }
       output(data, opts, () => {
         for (const c of data.companies) {
-          console.log(chalk.bold(`\n${c.ticker}`));
+          console.log(chalk.bold(`\n${c.ticker} (${c.cik})`));
           for (const period of c.periods) {
-            console.log(chalk.cyan(`\n  ${period.period_end} (${period.fiscal_period_type})`));
+            console.log(chalk.cyan(`\n  ${period.fiscal_period_type} FY${period.fiscal_year} Q${period.fiscal_quarter} (CY${period.calendar_year} Q${period.calendar_quarter}, ending ${period.period_end})`));
             for (const [metricId, segments] of Object.entries(period.facts as Record<string, any[]>)) {
               console.log(chalk.dim(`    ${metricId}:`));
               formatTable(segments, cmdOpts.detailed

@@ -34,7 +34,15 @@ export function registerOwnershipCommands(program: Command): void {
       }
       output(data, opts, () => {
         console.log(chalk.bold(`\nInstitution CIK: ${data.cik_institution}\n`));
-        formatTable(data.holdings, ['ticker_company', 'name_company', 'dollar_value', 'shares_or_principal_amount', 'period_end']);
+        formatTable(data.holdings, [
+          'ticker_company', 'cik_company', 'name_company', 'cusip_company',
+          'cik_institution', 'name_institution',
+          'dollar_value', 'shares_or_principal_amount', 'shares_or_principal_amount_type',
+          'investment_discretion', 'put_call',
+          'voting_authority_sole', 'voting_authority_shared', 'voting_authority_none',
+          'calendar_year', 'calendar_quarter', 'period_end', 'filing_date',
+          'accession_number', 'link_to_filing_details',
+        ]);
         printPaginationHint(data.next_url);
       });
     }));
@@ -61,8 +69,16 @@ export function registerOwnershipCommands(program: Command): void {
         );
       }
       output(data, opts, () => {
-        console.log(chalk.bold(`\n${data.ticker} Institutional Holders\n`));
-        formatTable(data.holdings, ['name_institution', 'cik_institution', 'dollar_value', 'shares_or_principal_amount', 'period_end']);
+        console.log(chalk.bold(`\n${data.ticker} (${data.cik}) Institutional Holders\n`));
+        formatTable(data.holdings, [
+          'name_institution', 'cik_institution',
+          'ticker_company', 'cik_company', 'name_company', 'cusip_company',
+          'dollar_value', 'shares_or_principal_amount', 'shares_or_principal_amount_type',
+          'investment_discretion', 'put_call',
+          'voting_authority_sole', 'voting_authority_shared', 'voting_authority_none',
+          'calendar_year', 'calendar_quarter', 'period_end', 'filing_date',
+          'accession_number', 'link_to_filing_details',
+        ]);
         printPaginationHint(data.next_url);
       });
     }));
@@ -105,7 +121,18 @@ export function registerOwnershipCommands(program: Command): void {
         );
       }
       output(data, opts, () => {
-        formatTable(data.transactions, ['cik_institution', 'name_institution', 'cusip_company', 'type', 'change_dollar_value', 'change_shares_or_principal_amount_absolute', 'period_end']);
+        formatTable(data.transactions, [
+          'cik_institution', 'name_institution',
+          'ticker_company', 'cik_company', 'name_company', 'cusip_company',
+          'type', 'change_dollar_value',
+          'change_shares_or_principal_amount_absolute', 'change_shares_or_principal_amount_percent',
+          'shares_or_principal_amount_new', 'shares_or_principal_amount_old',
+          'dollar_value', 'shares_or_principal_amount_type',
+          'investment_discretion', 'put_call',
+          'voting_authority_sole', 'voting_authority_shared', 'voting_authority_none',
+          'calendar_year', 'calendar_quarter', 'period_end', 'filing_date',
+          'accession_number',
+        ]);
         printPaginationHint(data.next_url);
       });
     }));
@@ -131,7 +158,7 @@ export function registerOwnershipCommands(program: Command): void {
         );
       }
       output(data, opts, () => {
-        formatTable(data.institutions, ['cik', 'name', 'city', 'state', 'country']);
+        formatTable(data.institutions, ['cik', 'name', 'street1', 'street2', 'city', 'state', 'zip_code', 'country']);
         printPaginationHint(data.next_url);
       });
     }));
